@@ -33,7 +33,7 @@ router.get('/vod/:id', function(req, res, next) {
 /* GET actual thumbnail for vod */
 router.get('/vod/:id/thumb', function(req, res, next){
   mixerClient.request('GET', 'recordings/'+req.params.id ).then( response => {
-    var url = response.body.vods[1].baseUrl+'source.png';
+    var url = response.body.vods[0].baseUrl+'source.png';
     res.json({'url': url});
   });
 });
@@ -41,7 +41,14 @@ router.get('/vod/:id/thumb', function(req, res, next){
 /* GET actual video for vod */
 router.get('/vod/:id/video', function(req, res, next){
   mixerClient.request('GET', 'recordings/'+req.params.id ).then( response => {
-    var url = response.body.vods[1].baseUrl+'source.mp4';
+    var url = response.body.vods[0].baseUrl+'source.mp4';
+    res.json({'url': url});
+  });
+});
+
+router.get('/vod/latest/video', function(req, res, next){
+  mixerClient.request('GET', 'channels/'+channelID+'/recordings?where=state:eq:AVAILABLE,order=createdAt:desc').then( response => {
+    var url = response.body.vods[0].baseUrl+'source.mp4';
     res.json({'url': url});
   });
 });
