@@ -7,10 +7,9 @@ var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var api = require('./routes/api');
 
 var app = express();
-
 
 // handlebars view templates hook
 // view engine setup
@@ -39,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // routes/index.js
 app.use('/', index);
+app.use('/api', api);
 
 // runout
 // catch 404 and forward to error handler
