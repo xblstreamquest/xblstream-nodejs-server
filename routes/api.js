@@ -1,4 +1,3 @@
-var curl = require('curlrequest');
 var express = require('express');
 var router = express.Router();
 
@@ -35,8 +34,7 @@ router.get('/vod/:id', function(req, res, next) {
 router.get('/vod/:id/thumb', function(req, res, next){
   mixerClient.request('GET', 'recordings/'+req.params.id ).then( response => {
     var url = response.body.vods[1].baseUrl+'source.png';
-    res.set('Content-Type','image/png');
-    curl.request(url, function(err, parts){ res.send(parts); });
+    res.json({'url': url});
   });
 });
 
