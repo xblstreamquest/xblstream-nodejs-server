@@ -1,6 +1,8 @@
+var curl = require('curlrequest');
 var express = require('express');
 var router = express.Router();
 
+/* attach to the mixer api endpoint and get our channel */
 const Mixer = require('beam-client-node');
 const mixerClient = new Mixer.Client(new Mixer.DefaultRequestRunner());
 
@@ -15,24 +17,26 @@ mixerClient.use(new Mixer.OAuthProvider(mixerClient, {
 
 mixerClient.request('GET', 'channels/xbl_stream_ip').then( response => { channelID = response.body.id; });
 
-/* GET users listing. */
+/* GET users listing */
 router.get('/vodlist', function(req, res, next) {
   mixerClient.request('GET', 'channels/'+channelID+'/recordings').then( response => {
     res.send(response.body);
   });
 });
 
-/* GET users listing. */
+/* GET vod list */
 router.get('/vod/:id', function(req, res, next) {
   mixerClient.request('GET', 'recordings/'+req.params.id).then( response => {
     res.send(response.body);
   });
 });
 
-
-router.get('/thumb/:id', function(req, res, next){
+/* GET actual thumbnail for vod */
+router.get('/vod/:id/thumb', function(req, res, next){
   mixerClient.request('GET', 'recordings/'+req.params.id ).then( response => {
-    res.send(response.body.vods[1].baseUrl+'source.png');
+    var url = response.body.vods[1].baseUrl+'source.png';
+    curl.request(url, function(err, parts){ res.send(parts.pop()) });
+    );
   });
 });
 
