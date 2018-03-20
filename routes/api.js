@@ -45,7 +45,7 @@ router.get('/vod/:id/video', function(req, res, next){
     mixerClient.request('GET', 'channels/'+channelID+'/recordings?where=state:eq:AVAILABLE,order=createdAt:desc').then( response => {
       // var url = response.body.vods[0].baseUrl+'source.mp4';
       var url = response.body.vods;
-      res.json({'url': url});
+      res.json(url);
     });
   }else{
     mixerClient.request('GET', 'recordings/'+req.params.id ).then( response => {
