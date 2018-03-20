@@ -11,6 +11,8 @@ var users = require('./routes/users');
 
 var app = express();
 
+
+app.set('port', 8000);
 // handlebars view templates hook
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
