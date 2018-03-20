@@ -35,7 +35,8 @@ router.get('/vod/:id', function(req, res, next) {
 router.get('/vod/:id/thumb', function(req, res, next){
   mixerClient.request('GET', 'recordings/'+req.params.id ).then( response => {
     var url = response.body.vods[1].baseUrl+'source.png';
-    curl.request(url, function(err, parts){ res.type('png'); res.send(parts); });
+    res.type('png');
+    curl.request(url, function(err, parts){ res.send(parts); });
   });
 });
 
