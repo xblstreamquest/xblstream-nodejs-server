@@ -22,6 +22,14 @@ router.get('/vodlist', function(req, res, next) {
   });
 });
 
+/* GET users listing. */
+router.get('/vod/:id', function(req, res, next) {
+  mixerClient.request('GET', 'recordings/'+res.response.id).then( response => {
+    res.send(response.body);
+  });
+});
+
+
 router.get('/thumb/:id', function(req, res, next){
   mixerClient.request('GET', 'resources/'+req.params.id ).then( response => {
     res.send(response.body);
