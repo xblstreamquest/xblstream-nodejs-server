@@ -22,4 +22,10 @@ router.get('/vodlist', function(req, res, next) {
   });
 });
 
+router.get('/thumb/:id', function(req, res, next){
+  mixerClient.request('GET', 'resources/'+req.params.id ).then( response => {
+    res.send(response.body);
+  });
+});
+
 module.exports = router;
