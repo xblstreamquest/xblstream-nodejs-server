@@ -13,17 +13,13 @@ mixerClient.use(new Mixer.OAuthProvider(mixerClient, {
     },
 }));
 
-mixerClient.request('GET', 'channels/xbl_stream_ip').then( response => {
-  console.log(response.body.id);
-
-}
-);
+mixerClient.request('GET', 'channels/xbl_stream_ip').then( response => { channelID = response.body.id; });
 
 /* GET users listing. */
 router.get('/vodlist', function(req, res, next) {
-  // mixerClient.request('GET', 'channels//recordings')
-
-  res.send('respond with a resource');
+  mixerClient.request('GET', 'channels/'+channelID+'/recordings').then( response => {
+    res.send(response.body);
+  });
 });
 
 module.exports = router;
