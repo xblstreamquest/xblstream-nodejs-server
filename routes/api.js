@@ -40,9 +40,11 @@ router.get('/vod/:id/thumb', function(req, res, next){
 
 /* GET actual video for vod */
 router.get('/vod/:id/video', function(req, res, next){
+  var url = '';
   if(req.params.id == 'latest'){
     mixerClient.request('GET', 'channels/'+channelID+'/recordings?where=state:eq:AVAILABLE,order=createdAt:desc').then( response => {
-      res.send(response.body);
+      var url = response.body.vods[0].baseUrl+'source.mp4';
+      res.json({'url': url});
     });
   }else{
     mixerClient.request('GET', 'recordings/'+req.params.id ).then( response => {
