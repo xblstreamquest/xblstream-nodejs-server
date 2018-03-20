@@ -49,7 +49,8 @@ router.get('/vod/:id/video', function(req, res, next){
 /* GET vod list */
 router.get('/vod/latest/video', function(req, res, next) {
   mixerClient.request('GET', 'channels/'+channelID+'/recordings?where=state:eq:AVAILABLE,order=createdAt:desc').then( response => {
-    res.json(response.body);
+    res.send(response.body);
+    //asdf
   });
 });
 
