@@ -18,7 +18,7 @@ mixerClient.request('GET', 'channels/xbl_stream_ip').then( response => { channel
 
 /* GET vod list */
 router.get('/vodlist', function(req, res, next) {
-  mixerClient.request('GET', 'channels/'+channelID+'/recordings').then( response => {
+  mixerClient.request('GET', 'channels/'+channelID+'/recordings?where=state:eq:AVAILABLE,order=createdAt:desc').then( response => {
     res.send(response.body);
   });
 });
