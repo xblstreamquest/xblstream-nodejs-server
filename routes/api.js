@@ -11,8 +11,15 @@ mixerClient.use(new Mixer.OAuthProvider(mixerClient, {
     },
 }));
 
+mixerClient.request('GET', 'channels/xbl_stream_ip').then( response => {
+  console.log(response.body);
+}
+);
+
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/vodlist', function(req, res, next) {
+  // mixerClient.request('GET', 'channels//recordings')
+
   res.send('respond with a resource');
 });
 
