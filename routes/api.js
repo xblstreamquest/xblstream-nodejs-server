@@ -4,6 +4,8 @@ var router = express.Router();
 const Mixer = require('beam-client-node');
 const mixerClient = new Mixer.Client(new Mixer.DefaultRequestRunner());
 
+var channelID = '';
+
 mixerClient.use(new Mixer.OAuthProvider(mixerClient, {
     tokens: {
         access: 'km6ZDUoHVFHWv8QdGngnfAssY2tKyuOdyFaen8NfkioxJWIzPDTPuszn95gYFfyv',
@@ -12,7 +14,8 @@ mixerClient.use(new Mixer.OAuthProvider(mixerClient, {
 }));
 
 mixerClient.request('GET', 'channels/xbl_stream_ip').then( response => {
-  console.log(response.body);
+  console.log(response.body.id);
+
 }
 );
 
