@@ -16,14 +16,14 @@ mixerClient.use(new Mixer.OAuthProvider(mixerClient, {
 
 mixerClient.request('GET', 'channels/xbl_stream_ip').then( response => { channelID = response.body.id; });
 
-/* GET users listing */
+/* GET vod list */
 router.get('/vodlist', function(req, res, next) {
   mixerClient.request('GET', 'channels/'+channelID+'/recordings').then( response => {
     res.send(response.body);
   });
 });
 
-/* GET vod list */
+/* GET vod info */
 router.get('/vod/:id', function(req, res, next) {
   mixerClient.request('GET', 'recordings/'+req.params.id).then( response => {
     res.send(response.body);
@@ -34,6 +34,14 @@ router.get('/vod/:id', function(req, res, next) {
 router.get('/vod/:id/thumb', function(req, res, next){
   mixerClient.request('GET', 'recordings/'+req.params.id ).then( response => {
     var url = response.body.vods[1].baseUrl+'source.png';
+    res.json({'url': url});
+  });
+});
+
+/* GET actual video for vod */
+router.get('/vod/:id/video', function(req, res, next){
+  mixerClient.request('GET', 'recordings/'+req.params.id ).then( response => {
+    var url = response.body.vods[1].baseUrl+'source.mp4';
     res.json({'url': url});
   });
 });
