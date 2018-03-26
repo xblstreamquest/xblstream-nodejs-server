@@ -43,7 +43,10 @@ router.get('/vod/:id/video', function(req, res, next){
   var url = '';
   if(req.params.id == 'latest'){
     mixerClient.request('GET', 'channels/'+channelID+'/recordings?where=state:eq:AVAILABLE,order=createdAt:desc').then( response => {
-      var url = response.body[0].vods[0].baseUrl+'source.mp4';
+      // blob:https://mixer.com/c9db2dfd-0bc9-4689-b01d-7f45748048b
+
+      //var url = 'blob:https://mixer.com/'+response.body[0].vods[0].baseUrl.split('/')[4];
+      var url = response.body[0].vods[0].baseUrl+'manifest.m3u8'
       res.json({'url': url});
     });
   }else{
