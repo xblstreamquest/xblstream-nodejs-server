@@ -14,26 +14,27 @@ mixerClient.use(new Mixer.OAuthProvider(mixerClient, {
     },
 }));
 
+/* Get channelID by channel name */
 mixerClient.request('GET', 'channels/xbl_stream_ip').then( response => { channelID = response.body.id; });
 
-/* GET vod list */
-router.get('/vodlist', function(req, res, next) {
+/* GET vod list by channelID*/
+router.get('/vods', function(req, res, next) {
   mixerClient.request('GET', 'channels/'+channelID+'/recordings?where=state:eq:AVAILABLE,order=createdAt:desc').then( response => {
     res.send(response.body);
   });
 });
 
-/* GET vod info */
-router.get('/vod/:id', function(req, res, next) {
+/* GET vod info by vodID */
+router.get('/vods/:id', function(req, res, next) {
   mixerClient.request('GET', 'recordings/'+req.params.id).then( response => {
     res.send(response.body);
   });
 });
 
-/* GET actual thumbnail for vod */
-router.get('/vod/:id/thumb', function(req, res, next){
+/* GET thumbnail for vod by vodID */
+router.get('/vods/:id/thumbnail', function(req, res, next){
   mixerClient.request('GET', 'recordings/'+req.params.id ).then( response => {
-    var url = response.body.vods[0].baseUrl+'source.png';
+    var url = response.body.vods.id.baseUrl+'720.jpg';
     res.json({'url': url});
   });
 });
@@ -46,7 +47,8 @@ router.get('/vod/:id/video', function(req, res, next){
       // blob:https://mixer.com/c9db2dfd-0bc9-4689-b01d-7f45748048b
 
       //var url = 'blob:https://mixer.com/'+response.body[0].vods[0].baseUrl.split('/')[4];
-      var url = response.body[0].vods[0].baseUrl+'manifest.m3u8'
+      // var url = response.body[0].vods[0].baseUrl+'manifest.m3u8'
+	var url = "";
       res.json({'url': url});
     });
   }else{
